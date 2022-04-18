@@ -71,7 +71,7 @@ class LoginAndFiles extends BaseRequest {
 
     @Test
     void test7() {
-        queryParams.put("_", "_=1622700773185");
+        queryParams.put("_", "1622700773185");
         response = GET(Endpoints.ARTIFACTS.getLabel(), queryParams);
         Assertions.assertTrue(response.asString().contains("artifacts"));
     }
