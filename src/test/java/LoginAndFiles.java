@@ -3,6 +3,7 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
+import utils.PropertyLoader;
 
 import java.util.HashMap;
 
@@ -74,5 +75,6 @@ class LoginAndFiles extends BaseRequest {
         queryParams.put("_", "1622700773185");
         response = GET(Endpoints.ARTIFACTS.getLabel(), queryParams);
         Assertions.assertTrue(response.asString().contains("artifacts"));
+        validateJSONSchema(response, PropertyLoader.getProperty("ARTIFACTS_SCHEMA"));
     }
 }

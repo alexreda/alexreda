@@ -3,6 +3,8 @@ import io.restassured.filter.log.ErrorLoggingFilter;
 import io.restassured.filter.log.RequestLoggingFilter;
 import io.restassured.filter.log.ResponseLoggingFilter;
 import io.restassured.response.Response;
+import io.restassured.response.ValidatableResponse;
+import utils.PropertyLoader;
 
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -10,6 +12,7 @@ import java.util.HashMap;
 import java.util.Properties;
 
 import static io.restassured.RestAssured.given;
+import static io.restassured.module.jsv.JsonSchemaValidator.matchesJsonSchemaInClasspath;
 
 class BaseRequest {
     private static String token;
@@ -45,12 +48,9 @@ class BaseRequest {
     }
 
     static String getCredentials() {
-        Properties properties = new Properties();
-        try {
-            properties.load(new FileInputStream(System.getProperty("user.dir") + configPath));
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        return properties.getProperty("CREDENTIALS");
+        return PropertyLoader.getProperty("CREDENTIALS");
+    }
+    static ValidatableResponse validateJSONSchema(Response response, String schema){
+              return  response.then().assertThat().body(matchesJsonSchemaInClasspath(schema));
     }
 }
