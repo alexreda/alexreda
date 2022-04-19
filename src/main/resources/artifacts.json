@@ -1,0 +1,60 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "type": "object",
+  "properties": {
+    "artifacts": {
+      "type": "array",
+      "items": [
+        {
+          "type": "object",
+          "properties": {
+            "artifact_type": {
+              "type": "string"
+            },
+            "status": {
+              "type": "string"
+            },
+            "status_description": {
+              "type": "string"
+            },
+            "business_status": {
+              "type": "string"
+            }
+          },
+          "required": [
+            "artifact_type",
+            "status",
+            "status_description",
+            "business_status"
+          ]
+        },
+        {
+          "type": "object",
+          "properties": {
+            "artifact_type": {
+              "type": "string"
+            },
+            "status": {
+              "type": "string"
+            },
+            "status_description": {
+              "type": "string"
+            },
+            "business_status": {
+              "type": "null"
+            }
+          },
+          "required": [
+            "artifact_type",
+            "status",
+            "status_description",
+            "business_status"
+          ]
+        }
+      ]
+    }
+  },
+  "required": [
+    "artifacts"
+  ]
+}

@@ -6,18 +6,15 @@ import io.restassured.response.Response;
 import io.restassured.response.ValidatableResponse;
 import utils.PropertyLoader;
 
-import java.io.FileInputStream;
-import java.io.IOException;
+import java.io.File;
 import java.util.HashMap;
-import java.util.Properties;
 
 import static io.restassured.RestAssured.given;
-import static io.restassured.module.jsv.JsonSchemaValidator.matchesJsonSchemaInClasspath;
+import static io.restassured.module.jsv.JsonSchemaValidator.matchesJsonSchema;
 
 class BaseRequest {
     private static String token;
-    private static String configPath = "\\src\\main\\resources\\config.properties";
-
+    private static String jsonPath = "\\src\\main\\resources\\";
     static Response login(String path, String encodedCreds, HashMap body) {
         return given()
                 .basePath(path)
@@ -50,7 +47,9 @@ class BaseRequest {
     static String getCredentials() {
         return PropertyLoader.getProperty("CREDENTIALS");
     }
+
     static ValidatableResponse validateJSONSchema(Response response, String schema){
-              return  response.then().assertThat().body(matchesJsonSchemaInClasspath(schema));
+        File file = new File(System.getProperty("user.dir")+jsonPath+schema);
+              return  response.then().assertThat().body(matchesJsonSchema(file));
     }
 }
