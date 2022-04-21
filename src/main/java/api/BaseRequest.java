@@ -1,3 +1,6 @@
+package api;
+
+import config.Urls;
 import io.restassured.RestAssured;
 import io.restassured.filter.log.ErrorLoggingFilter;
 import io.restassured.filter.log.RequestLoggingFilter;
@@ -12,35 +15,43 @@ import java.util.HashMap;
 import static io.restassured.RestAssured.given;
 import static io.restassured.module.jsv.JsonSchemaValidator.matchesJsonSchema;
 
-class BaseRequest {
-    private static String token;
+public class BaseRequest {
+    private static String headerKey;
+    private static String headerValue;
     private static String jsonPath = "\\src\\main\\resources\\";
-    static Response login(String path, String encodedCreds, HashMap body) {
+
+
+    static String formUrl(String path){
+        return Urls.getBASE_URL() + path;
+    }
+
+
+    static Response postRequest(String url, HashMap header, HashMap body) {
+        headerKey = header.keySet().toArray()[0].toString();
+        headerValue = header.get(headerKey).toString();
         return given()
-                .basePath(path)
-                .header("Authorization", encodedCreds)
+                .header(headerKey, headerValue)
                 .body(body)
-                .post();
+                .post(url);
     }
 
-    static Response GET(String path, HashMap queryParams) {
+    static Response getRequest(String url, HashMap header, HashMap<String, Object> queryParams) {
+        headerKey = header.keySet().toArray()[0].toString();
+        System.out.println("HEADER_KEY: "+ headerKey);
+        System.out.println(header.get(headerKey));
+        headerValue = header.get(headerKey).toString();
         return given()
-                .basePath(path)
-                .header("x-token", token)
+                .header(headerKey, headerValue)
                 .queryParams(queryParams)
-                .get();
+                .get(url);
     }
 
-    static String getToken(Response response) {
-        token = response.jsonPath().get("token");
-        return token;
-    }
 
-    static void setBaseUrl(String baseUrl) {
+    public static void setBaseUrl(String baseUrl) {
         RestAssured.baseURI = baseUrl;
     }
 
-    static void enableLogging() {
+    public static void enableLogging() {
         RestAssured.filters(new RequestLoggingFilter(), new ResponseLoggingFilter(), new ErrorLoggingFilter());
     }
 
