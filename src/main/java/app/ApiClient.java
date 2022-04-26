@@ -1,4 +1,4 @@
-package api;
+package app;
 
 import config.Urls;
 import io.restassured.response.Response;

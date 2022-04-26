@@ -1,5 +1,5 @@
-import api.ApiClient;
-import api.BaseRequest;
+import app.ApiClient;
+import app.BaseRequest;
 import io.restassured.response.Response;
 import lombok.extern.java.Log;
 import org.junit.jupiter.api.Assertions;
