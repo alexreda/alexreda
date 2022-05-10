@@ -31,4 +31,8 @@ public class LoginPage extends BasePage {
         passwordField.sendKeys(password);
         signInBtn.click();
     }
+    
+    public void open(){
+        driver.get(Config.LOGIN_PAGE_URL)
+    }
 }
